@@ -7,5 +7,8 @@ listener = Listener(address)
 while True:
     conn = listener.accept()
     files = conn.recv()
-    print(files)
+    names = files[0]
+    paths = files[1]
+    for i in range(len(names)):
+        print(names[i]," : ",paths[i])
 listener.close()
