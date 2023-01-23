@@ -1,6 +1,10 @@
 from multiprocessing.connection import Listener
+from multiprocessing import Process
+import threading
 
 address = ('localhost', 6000)
 listener = Listener(address)
-conn = listener.accept()
+while True:
+    conn = listener.accept()
+    
 listener.close()
