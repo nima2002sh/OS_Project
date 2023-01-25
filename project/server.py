@@ -21,8 +21,9 @@ def commander_handler(conn):
 
 def worker_handler(conn):
     while True:
-        path = path_list.get()
-        conn.send([path])
+        paths = path_list.get()
+        conn.send(paths)
+
 
 if __name__ == "__main__":
 
