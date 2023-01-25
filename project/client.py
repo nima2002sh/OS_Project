@@ -2,19 +2,17 @@ from multiprocessing.connection import Client
 import os, fnmatch
 
 def find(pattern, path):
-    names = []
     paths = []
     for root, dirs, files in os.walk(path):
         for name in files:
             if fnmatch.fnmatch(name, pattern):
-                names.append(name)
-                paths.append(root)
-    return names,paths
+                paths.append(os.path.abspath(name))
+    return paths
 
 
 address = ('localhost', 6000)
 conn = Client(address)
-names,paths = find('*.iso', os.getcwd())
-files = [names , paths]
-conn.send(files)
+paths = find('*.iso', os.getcwd())
+conn.send("client")
+conn.send(paths)
 conn.close()
