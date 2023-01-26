@@ -15,6 +15,7 @@ def worker():
         w.send("worker")
         while True:
             paths = w.recv()
+            print(paths)
             for path in paths:
                 md5 = calmd5(path)
                 with open(path+".md5" , "w") as m:

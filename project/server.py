@@ -22,7 +22,15 @@ def commander_handler(conn):
 def worker_handler(conn):
     while True:
         paths = path_list.get()
-        conn.send(paths)
+        t = 3
+        for i in range(int(len(paths)/t)):
+            p = paths[i*t:(i+1)*t]
+            conn.send(p)
+        r = len(paths)%t
+        if r:
+            p = paths[len(l)-x:len(l)]
+            conn.send(p)
+
 
 
 if __name__ == "__main__":

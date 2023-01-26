@@ -10,9 +10,10 @@ def find():
     return paths
 
 
-address = ('localhost', 6000)
-conn = Client(address)
-paths = find()
-conn.send("client")
-conn.send(paths)
-conn.close()
+if __name__ == "__main__":
+    address = ('localhost', 6000)
+    conn = Client(address)
+    paths = find()
+    conn.send("client")
+    conn.send(paths)
+    conn.close()
