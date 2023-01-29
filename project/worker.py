@@ -1,5 +1,6 @@
 from multiprocessing.connection import Client
 import hashlib
+import random
 
 address = ('localhost', 6000)
 
@@ -18,9 +19,11 @@ def worker():
 
         while True:
             paths = w.recv()
-
             for path in paths:
-                md5 = calmd5(path)
+                if random.randint(1, 3) == 3:
+                    md5 = " "
+                else:
+                    md5 = calmd5(path)
                 with open(path+".md5" , "w") as m:
                     m.write(md5)
 

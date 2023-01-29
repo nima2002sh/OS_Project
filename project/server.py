@@ -17,25 +17,34 @@ def make_worker():
 
 
 def commander_handler(conn):
+    
+    coneccted = True
 
-    while True:
-        paths = conn.recv()
-        path_list.put(paths)
+    while coneccted:
+        try:
+            path = conn.recv()
+            path_list.put(path)
+
+        except (EOFError , ConnectionResetError):
+            coneccted = False
+            print("conection lost")
 
 
 def worker_handler(conn):
 
     while True:
-        paths = path_list.get()
-
-        for i in range(int(len(paths)/t)):
-            p = paths[i*t:(i+1)*t]
+        while path_list.qsize()>=5:
+            p = []
+            for i in range(t):
+                p.append(path_list.get())
             conn.send(p)
 
-        r = len(paths)%t
+        r = path_list.qsize()%t
 
         if r:
-            p = paths[len(paths)-r:len(paths)]
+            p = []
+            for i in range(r):
+                p.append(path_list.get())
             conn.send(p)
 
 
